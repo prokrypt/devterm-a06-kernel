@@ -1,0 +1,6 @@
+src/
+pkg/
+*.pkg.tar.*
+*.tar.xz
+*.xz
+makepkg.log

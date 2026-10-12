@@ -1,0 +1,51 @@
+From 5fe3547389a5b27f1feadd61e02bddcb0b66e7ca Mon Sep 17 00:00:00 2001
+From: prokrypt <prokrypt@edited.us>
+Date: Sun, 11 Oct 2026 19:15:06 -0700
+Subject: [PATCH 6/7] devfreq: rk3399_dmc: more eager ondemand thresholds
+
+Raise the DDR clock earlier (upthreshold 25 -> 10, downdifferential
+15 -> 5). The original patch also moves the devfreq event drivers
+(DFI) before the devfreq drivers in the Makefile; that is kept.
+
+Source: yatli/arch-linux-arm-clockworkpi (0033-a06-rk3399-dmc-optimize.patch).
+---
+ drivers/devfreq/Makefile     | 6 +++---
+ drivers/devfreq/rk3399_dmc.c | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/devfreq/Makefile b/drivers/devfreq/Makefile
+index 404179d79..8c170967d 100644
+--- a/drivers/devfreq/Makefile
++++ b/drivers/devfreq/Makefile
+@@ -7,6 +7,9 @@ obj-$(CONFIG_DEVFREQ_GOV_POWERSAVE)	+= governor_powersave.o
+ obj-$(CONFIG_DEVFREQ_GOV_USERSPACE)	+= governor_userspace.o
+ obj-$(CONFIG_DEVFREQ_GOV_PASSIVE)	+= governor_passive.o
+ 
++# DEVFREQ Event Drivers
++obj-$(CONFIG_PM_DEVFREQ_EVENT)		+= event/
++
+ # DEVFREQ Drivers
+ obj-$(CONFIG_ARM_EXYNOS_BUS_DEVFREQ)	+= exynos-bus.o
+ obj-$(CONFIG_ARM_HISI_UNCORE_DEVFREQ)	+= hisi_uncore_freq.o
+@@ -16,6 +19,3 @@ obj-$(CONFIG_ARM_MEDIATEK_CCI_DEVFREQ)	+= mtk-cci-devfreq.o
+ obj-$(CONFIG_ARM_RK3399_DMC_DEVFREQ)	+= rk3399_dmc.o
+ obj-$(CONFIG_ARM_SUN8I_A33_MBUS_DEVFREQ)	+= sun8i-a33-mbus.o
+ obj-$(CONFIG_ARM_TEGRA_DEVFREQ)		+= tegra30-devfreq.o
+-
+-# DEVFREQ Event Drivers
+-obj-$(CONFIG_PM_DEVFREQ_EVENT)		+= event/
+diff --git a/drivers/devfreq/rk3399_dmc.c b/drivers/devfreq/rk3399_dmc.c
+index dbdce7636..edd31ec9e 100644
+--- a/drivers/devfreq/rk3399_dmc.c
++++ b/drivers/devfreq/rk3399_dmc.c
+@@ -414,8 +414,8 @@ static int rk3399_dmcfreq_probe(struct platform_device *pdev)
+ 		goto err_edev;
+ 	}
+ 
+-	data->ondemand_data.upthreshold = 25;
+-	data->ondemand_data.downdifferential = 15;
++	data->ondemand_data.upthreshold = 10;
++	data->ondemand_data.downdifferential = 5;
+ 
+ 	data->rate = clk_get_rate(data->dmc_clk);
+ 

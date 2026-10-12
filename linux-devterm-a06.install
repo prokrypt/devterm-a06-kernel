@@ -1,0 +1,29 @@
+_msg() {
+  cat <<'MSG'
+==> linux-devterm-a06 is NOT set as the boot kernel automatically.
+    Add an entry to /boot/extlinux/extlinux.conf (keep your old one as a fallback):
+
+      LABEL devterm-a06
+      KERNEL /Image-devterm-a06
+      FDT /dtbs-devterm-a06/rockchip/rk3399-clockworkpi-a06.dtb
+      APPEND initrd=/initramfs-devterm-a06.img root=... rw rootwait
+
+    and point DEFAULT at it. U-Boot shows nothing on the DevTerm screen, so
+    there is no boot menu: to go back, edit DEFAULT (from another computer if
+    the new kernel doesn't boot).
+MSG
+}
+
+post_install() {
+  _msg
+}
+
+post_upgrade() {
+  if findmnt --fstab -uno SOURCE /boot &>/dev/null && ! mountpoint -q /boot; then
+    echo "WARNING: /boot appears to be a separate partition but is not mounted."
+  fi
+}
+
+post_remove() {
+  rm -f boot/initramfs-devterm-a06.img
+}
