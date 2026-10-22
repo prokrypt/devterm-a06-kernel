@@ -932,7 +932,7 @@ index 000000000..eb264db0a
 +	max-frequency = <150000000>;
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&sdmmc_bus4 &sdmmc_clk &sdmmc_cmd &sdmmc0_det_l>;
-+//	sd-uhs-sdr104;
++	sd-uhs-sdr104;
 +	vmmc-supply = <&vcc3v0_sd>;
 +	vqmmc-supply = <&vcc_sdio>;
 +	status = "okay";

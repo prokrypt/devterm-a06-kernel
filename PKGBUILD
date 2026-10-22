@@ -11,7 +11,7 @@ pkgbase=linux-devterm-a06
 _srcname=linux-7.2
 _desc="ClockworkPi DevTerm A06"
 pkgver=7.2.10
-pkgrel=1
+pkgrel=2
 arch=('aarch64')
 url="https://github.com/prokrypt/devterm-a06-kernel"
 license=('GPL-2.0-only')
@@ -37,7 +37,7 @@ sha256sums=('f9fef3d14c0df53819026f4be74459835c2a0b0dcbf5b5bbd9ea19f0829402b3'
             '751a2a41d3eaa4caed63a0c885f0a027de56b785d31dcfc9b94679c1ef119fed'
             '8cd4d0687e50018d05ac90beab519d1fc6f3cc1e5eab4343bfeb38a227e09d93'
             '939cc86c2c6c72ca185b31dcfbb0c23327d0498f7f4b342b8fe883c72270676b'
-            'd5c8bbbe9f9fc20311386fa44a7278d2bc0678915d55cf126706189714404cd2'
+            '1b934f25a2f3ecd408ad973273b1ddf37609c456bd3b1cd384402c7f29e33727'
             '765c0c6590eeeb15f36e18aef2f6133b31932d507d75e2d0a5a497d57915905b'
             'a7d9841fc067b2a5f5cdbfe265fe59a571d80c955e138a1e756d971907b721e1'
             '64172eb26a0adef7403d819473f89d1d886265a611976405dba8ee4e644bacac')

@@ -17,6 +17,7 @@ Running daily on a DevTerm A06 since 2026-10-11 (Arch Linux ARM, sway).
 | Backlight | works |
 | Suspend to RAM (deep) and resume | works |
 | Battery, charger, fuel gauge (AXP228) | works, plus energy/power/calibrate properties |
+| microSD in UHS-I SDR104 (148.5MHz, 1.8V) | works since 2026-10-21: ~59MB/s sequential read, was ~22MB/s at 50MHz (see below) |
 | WiFi (brcmfmac) | works |
 | Audio (ES8388) | works |
 | Thermal trip points and fan | works |
@@ -45,7 +46,7 @@ echo 2900000 > /sys/class/power_supply/axp20x-battery/voltage_min
 | 0004 | `rockchipdrm.dsi_hpad`: end-of-line padding for the panel's lost pixels ([cwd686-fix](https://github.com/prokrypt/cwd686-fix)) |
 | 0005 | AXP228 battery/charger additions, RK808 power-off preparation |
 | 0006 | rk3399_dmc ondemand thresholds |
-| 0007 | The A06 device tree |
+| 0007 | The A06 device tree, with `sd-uhs-sdr104` enabled on the microSD slot |
 
 Each patch builds on its own. The commit messages say where each one comes
 from and what changed. Sources: ClockworkPi, Max Fierke, Yatao Li
@@ -121,6 +122,12 @@ kernel, whatever the distro:
   and `PINCTRL_RK805`. `HID_LOGITECH` now needs `LEDS_CLASS_MULTICOLOR`.
 - **rk3399.dtsi split.** Include `rk3399-base.dtsi`, because `rk3399.dtsi` now
   has its own OPP tables and the A06 brings its own.
+- **microSD speed.** ClockworkPi's DTS has `sd-uhs-sdr104` commented out on
+  `&sdmmc`, so the card runs at 50MHz "high speed". All the UHS wiring is there
+  (`vqmmc-supply` = RK808 LDO4, 1.8–3.0V; `io_domains` `sdmmc-supply`), and
+  SDR104 tunes and runs cleanly on a SanDisk 128GB card: `btrfs scrub` of 19GB
+  with no errors, sequential read 22.5 → 59.4MB/s. If your card misbehaves,
+  comment the line out again.
 - **API changes.** Panels use `devm_drm_panel_alloc()` and `.get_orientation`.
   Backlights use `backlight_is_blank()` (no more `fb_blank`).
   `linux/of_gpio.h` is gone.
